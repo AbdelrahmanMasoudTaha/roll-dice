@@ -25,16 +25,29 @@ class _RollDiceState extends State<RollDice> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset('images/dice-$activeDice.png',width: 200,),
+        AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          transitionBuilder: (child, animation) {
+            return RotationTransition(
+              turns: Tween<double>(begin: 0.8, end: 1).animate(animation),
+              child: child,
+            );
+          },
+          child: Image.asset(
+            'images/dice-$activeDice.png',
+            width: 200,
+            key: ValueKey(rand.nextInt(100) / activeDice),
+          ),
+        ),
         const SizedBox(
           height: 20,
         ),
         OutlinedButton(
           onPressed: rollIt,
-
           style: TextButton.styleFrom(
               foregroundColor: Colors.white,
-              textStyle: const TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
+              textStyle:
+                  const TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
           child: const Text('ROLL ME!'),
         )
       ],
